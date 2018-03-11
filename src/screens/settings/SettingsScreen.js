@@ -27,7 +27,7 @@ class SettingsScreen extends React.Component {
       <View>
         <ListItem onPress={this.toggleSortAlphabetically}>
           <CheckBox checked={this.props.sortAlphabetically} />
-
+          {/* Move checkbox to right (as with list icon) */}
           <Body>
             <Text>Sort todos alphabetically</Text>
           </Body>

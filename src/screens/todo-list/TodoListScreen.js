@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import CreateTodoRow from './CreateTodoRow';
-import { addTodo, removeTodo } from '../../actions/todoListActions';
+import { addTodo, removeTodo, editTodo } from '../../actions/todoListActions';
 import TodoList from './TodoList';
+import EditTodoItemModal from './EditTodoItemModal';
 
 class TodoListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -26,22 +27,66 @@ class TodoListScreen extends React.Component {
     super(props);
 
     this.openSettings = this.openSettings.bind(this);
+    this.openEditTodoModal = this.openEditTodoModal.bind(this);
+    this.onCancelEditTodoItemModal = this.onCancelEditTodoItemModal.bind(this);
+    this.onConfirmEditTodoItemModal = this.onConfirmEditTodoItemModal.bind(this);
   }
+
+  state = {
+    editedTodoItem: null,
+  };
 
   async componentWillMount() {
     this.props.navigation.setParams({ openSettings: this.openSettings });
+  }
+
+  onCancelEditTodoItemModal() {
+    this.setState({
+      editedTodoItem: null,
+    });
+  }
+
+  onConfirmEditTodoItemModal(newTitle) {
+    const todoItem = this.state.editedTodoItem;
+
+    this.setState({
+      editedTodoItem: null,
+    });
+
+    this.props.editTodo(todoItem, newTitle);
   }
 
   openSettings() {
     this.props.navigation.navigate('Settings');
   }
 
+  openEditTodoModal(todoItem) {
+    this.setState({
+      editedTodoItem: todoItem,
+    });
+  }
+
   render() {
+    const { editedTodoItem } = this.state;
+
     return (
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} keyboardVerticalOffset={75}>
         <Container>
           <Content>
-            {!this.props.isTodoListLoaded ? <Spinner /> : <TodoList {...this.props} />}
+            {editedTodoItem && (
+              <EditTodoItemModal
+                onConfirm={this.onConfirmEditTodoItemModal}
+                onCancel={this.onCancelEditTodoItemModal}
+                todoItem={editedTodoItem}
+                modalVisible
+              />
+            )}
+
+            {!this.props.isTodoListLoaded ? (
+              <Spinner />
+            ) : (
+              <TodoList {...this.props} editTodo={this.openEditTodoModal} />
+            )}
           </Content>
         </Container>
         <CreateTodoRow createTodo={this.props.addTodo} />
@@ -58,6 +103,7 @@ TodoListScreen.propTypes = {
 
   addTodo: PropTypes.func.isRequired,
   removeTodo: PropTypes.func.isRequired,
+  editTodo: PropTypes.func.isRequired,
 };
 
 function sortTodoListAlphabetically(todoList) {
@@ -95,6 +141,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   addTodo,
   removeTodo,
+  editTodo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoListScreen);

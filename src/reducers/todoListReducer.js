@@ -30,6 +30,15 @@ export default function todoListReducer(state = initialState, action) {
       return { ...state, todoList: newTodoList };
     }
 
+    case TODO_LIST_ACTION.EDIT: {
+      const { todoItem } = action;
+
+      todoItem.title = action.newTitle;
+      TodoStorage.save(state.todoList);
+
+      return state;
+    }
+
     case TODO_LIST_ACTION.LOADED:
       return {
         ...state,
