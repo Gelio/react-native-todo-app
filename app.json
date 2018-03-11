@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "sdkVersion": "25.0.0",
+    "name": "Native Todo List",
+    "icon": "./todoicon.png",
+    "version": "1.0.0",
+    "slug": "native-todo-list",
+    "ios": {
+      "bundleIdentifier": "com.voreny.nativetodolist"
+    },
+    "android": {
+      "package": "com.voreny.nativetodolist"
+    }
   }
 }
