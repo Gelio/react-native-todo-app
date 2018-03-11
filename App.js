@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, KeyboardAvoidingView } from 'react-native';
+import { ScrollView, View, KeyboardAvoidingView, AsyncStorage } from 'react-native';
 import { Text, Container, Header, Button, Content, Footer, Spinner, SwipeRow, Body, Title, FooterTab, List, ListItem, Right } from 'native-base';
 
 import Item from './src/Item';
@@ -11,23 +11,7 @@ export default class App extends React.Component {
       new Item('Complete initial Android project', Date.now()),
       new Item('Remove items', Date.now()),
       new Item('Edit items', Date.now()),
-      new Item('Add new items', Date.now()),
-      new Item('Add new it2ems', Date.now()),
-      new Item('Add new ite3ms', Date.now()),
-      new Item('Add new item4s', Date.now()),
-      new Item('Add new item2s', Date.now()),
-      new Item('Add new item5s', Date.now()),
-      new Item('Add new item6s', Date.now()),
-      new Item('Add new ite1212ms', Date.now()),
-      new Item('Add new ite7s', Date.now()),
-      new Item('Add new item7s', Date.now()),
-      new Item('Add new item8s', Date.now()),
-      new Item('Add new item9s', Date.now()),
-      new Item('Add new itms', Date.now()),
-      new Item('Add new tems', Date.now()),
-      new Item('Add ne items', Date.now()),
-      new Item('Add ew items', Date.now()),
-      new Item('Ad new items', Date.now()),
+      new Item('Add new items', Date.now())
     ],
     appLoaded: false,
   };
@@ -41,17 +25,26 @@ export default class App extends React.Component {
   }
 
   async componentWillMount() {
-    await Expo.Font.loadAsync({
+    const loadFontsPromise = Expo.Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
     });
+
+    const loadTodosPromise = this.loadTodos();
+
+    await Promise.all([loadFontsPromise, loadTodosPromise]);
+
     this.setState({ appLoaded: true });
   }
 
   addTodo(text) {
+    const newItems = [...this.state.items, new Item(text, Date.now())];
+
     this.setState({
-      items: [...this.state.items, new Item(text, Date.now())],
+      items: newItems,
     });
+
+    this.saveTodos(newItems);
   }
 
   removeTodo(item) {
@@ -61,9 +54,35 @@ export default class App extends React.Component {
     const previous = items.slice(0, index);
     const next = items.slice(index + 1);
 
+    const newItems = [...previous, ...next];
+
     this.setState({
-      items: [...previous, ...next],
+      items: newItems,
     });
+
+    this.saveTodos(newItems);
+  }
+
+  async saveTodos(list) {
+    await AsyncStorage.setItem('todos', JSON.stringify(list));
+    console.log('todos saved');
+  }
+
+  async loadTodos() {
+    try {
+      const serializedList = await AsyncStorage.getItem('todos');
+      if (!serializedList) {
+        console.log('no todos found');
+        return;
+      }
+
+      this.setState({
+        items: JSON.parse(serializedList)
+      });
+      console.log('loaded todos', serializedList);
+    } catch (error) {
+      console.error('error while loading todos', error);
+    }
   }
 
   openSettings() {
