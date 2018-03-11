@@ -1,12 +1,12 @@
 import React from 'react';
 import { KeyboardAvoidingView } from 'react-native';
-import { Container, Button, Text, Content, List, ListItem, Spinner } from 'native-base';
+import { Container, Button, Text, Content, Spinner } from 'native-base';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import CreateTodoRow from './CreateTodoRow';
-import TodoStorage from '../../TodoStorage';
-import { addTodo, removeTodo, todoListLoaded } from '../../actions/todoListActions';
+import { addTodo, removeTodo } from '../../actions/todoListActions';
+import TodoList from './TodoList';
 
 class TodoListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -41,18 +41,7 @@ class TodoListScreen extends React.Component {
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} keyboardVerticalOffset={75}>
         <Container>
           <Content>
-            {!this.props.isTodoListLoaded ? (
-              <Spinner />
-            ) : (
-              <List
-                dataArray={this.props.todoList}
-                renderRow={todoItem => (
-                  <ListItem onPress={() => this.props.removeTodo(todoItem)}>
-                    <Text>{todoItem.title}</Text>
-                  </ListItem>
-                )}
-              />
-            )}
+            {!this.props.isTodoListLoaded ? <Spinner /> : <TodoList {...this.props} />}
           </Content>
         </Container>
         <CreateTodoRow createTodo={this.props.addTodo} />
