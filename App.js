@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ToolbarAndroid,
-  ScrollView,
-  Button,
-  TextInput,
-  KeyboardAvoidingView
-} from 'react-native';
-import { Item } from './src/Item';
+import { ScrollView, View, KeyboardAvoidingView } from 'react-native';
+import { Text, Container, Header, Content, Footer, Spinner, Body, Title, FooterTab, List, ListItem } from 'native-base';
+
+import Item from './src/Item';
+import CreateTodo from './src/CreateTodo';
 
 export default class App extends React.Component {
   state = {
@@ -17,9 +11,25 @@ export default class App extends React.Component {
       new Item('Complete initial Android project', Date.now()),
       new Item('Remove items', Date.now()),
       new Item('Edit items', Date.now()),
-      new Item('Add new items', Date.now())
+      new Item('Add new items', Date.now()),
+      new Item('Add new it2ems', Date.now()),
+      new Item('Add new ite3ms', Date.now()),
+      new Item('Add new item4s', Date.now()),
+      new Item('Add new item2s', Date.now()),
+      new Item('Add new item5s', Date.now()),
+      new Item('Add new item6s', Date.now()),
+      new Item('Add new ite1212ms', Date.now()),
+      new Item('Add new ite7s', Date.now()),
+      new Item('Add new item7s', Date.now()),
+      new Item('Add new item8s', Date.now()),
+      new Item('Add new item9s', Date.now()),
+      new Item('Add new itms', Date.now()),
+      new Item('Add new tems', Date.now()),
+      new Item('Add ne items', Date.now()),
+      new Item('Add ew items', Date.now()),
+      new Item('Ad new items', Date.now()),
     ],
-    newTodo: ''
+    appLoaded: false,
   };
 
   constructor() {
@@ -29,10 +39,17 @@ export default class App extends React.Component {
     this.removeTodo = this.removeTodo.bind(this);
   }
 
-  addTodo() {
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+    });
+    this.setState({ appLoaded: true });
+  }
+
+  addTodo(text) {
     this.setState({
-      items: [...this.state.items, new Item(this.state.newTodo, Date.now())],
-      newTodo: ''
+      items: [...this.state.items, new Item(text, Date.now())],
     });
   }
 
@@ -44,61 +61,41 @@ export default class App extends React.Component {
     const next = items.slice(index + 1);
 
     this.setState({
-      items: [...previous, ...next]
+      items: [...previous, ...next],
     });
   }
 
-  render() {
+  getLoadedAppContainer() {
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <ToolbarAndroid
-          title="SomeApp"
-          actions={[
-            {
-              title: 'Hello'
-            }
-          ]}
-          titleColor="black"
-          style={styles.toolbar}
-        />
-        <View style={styles.todoList}>
-          <Text style={{ fontSize: 24 }}>Todo list</Text>
-          <ScrollView style={{ flex: 1 }}>
-            {this.state.items.map(item => (
-              <Text
-                style={{ fontSize: 18, paddingTop: 10 }}
-                key={item.title}
-                onPress={() => this.removeTodo(item)}
-              >
-                {item.title}
-              </Text>
-            ))}
-          </ScrollView>
-
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <TextInput
-              style={{ flex: 1 }}
-              value={this.state.newTodo}
-              onChangeText={text => this.setState({ newTodo: text })}
-            />
-            <Button title="Add" onPress={this.addTodo} />
-          </View>
-        </View>
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+        <Container>
+          <Header>
+            <Body>
+              <Title>Todo list</Title>
+            </Body>
+          </Header>
+          <Content>
+            <List dataArray={this.state.items} renderRow={item =>
+              <ListItem onPress={() => this.removeTodo(item)}><Text>{item.title}</Text></ListItem>} />
+          </Content>
+        </Container>
+        <CreateTodo createTodo={this.addTodo} />
       </KeyboardAvoidingView>
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    flex: 1
-  },
-  toolbar: {
-    height: 56
-  },
-  todoList: {
-    justifyContent: 'center',
-    flex: 1
+  getLoadingContainer() {
+    return (
+      <Container>
+        <Header />
+        <Content>
+          <Spinner />
+        </Content>
+      </Container>
+    );
   }
-});
+
+  render() {
+    return this.state.appLoaded ? this.getLoadedAppContainer() : this.getLoadingContainer();
+  }
+}
