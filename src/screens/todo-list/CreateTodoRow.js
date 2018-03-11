@@ -1,12 +1,21 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Input, View, Button, Text, Item, Container, Content } from 'native-base';
+import PropTypes from 'prop-types';
+import { Input, View, Button, Text } from 'native-base';
 
-export default class CreateTodo extends React.Component {
-  state = {
-    text: '',
-  };
+import TodoItem from '../../TodoItem';
 
+const createTodoStyle = StyleSheet.create({
+  view: {
+    flexDirection: 'row',
+    paddingHorizontal: 5,
+    paddingTop: 2,
+    borderTopColor: 'grey',
+    borderTopWidth: 1,
+  },
+});
+
+export default class CreateTodoRow extends React.Component {
   constructor(props) {
     super(props);
 
@@ -15,13 +24,18 @@ export default class CreateTodo extends React.Component {
     this.onAddTodoClick = this.onAddTodoClick.bind(this);
   }
 
+  state = {
+    text: '',
+  };
+
   onAddTodoClick() {
     if (!this.state.text) {
       return;
     }
 
-    this.createTodo(this.state.text);
+    const todoItem = new TodoItem(this.state.text, Date.now());
 
+    this.createTodo(todoItem);
     this.setState({
       text: '',
     });
@@ -31,11 +45,12 @@ export default class CreateTodo extends React.Component {
     return (
       <View style={createTodoStyle.view}>
         <Input
-          placeholder="Do great stuff!"
+          placeholder="What is your next task?"
           value={this.state.text}
           onChangeText={text => this.setState({ text })}
           style={{ borderColor: 'gray' }}
         />
+
         <Button success onPress={this.onAddTodoClick}>
           <Text>Add</Text>
         </Button>
@@ -44,12 +59,6 @@ export default class CreateTodo extends React.Component {
   }
 }
 
-const createTodoStyle = StyleSheet.create({
-  view: {
-    flexDirection: 'row',
-    paddingHorizontal: 5,
-    paddingTop: 2,
-    borderTopColor: 'grey',
-    borderTopWidth: 1
-  }
-});
+CreateTodoRow.propTypes = {
+  createTodo: PropTypes.func.isRequired,
+};

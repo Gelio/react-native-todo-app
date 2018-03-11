@@ -1,4 +1,4 @@
-export default class Item {
+export default class TodoItem {
   /**
    * @param {string} title
    * @param {number} createdAt

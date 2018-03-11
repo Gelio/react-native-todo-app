@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "babel-eslint": "^8.2.2",
     "eslint": "^4.9.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.7.0",
@@ -26,7 +27,11 @@
   "dependencies": {
     "expo": "^25.0.0",
     "native-base": "^2.3.10",
+    "prop-types": "^15.6.1",
     "react": "16.2.0",
-    "react-native": "0.52.0"
+    "react-native": "0.52.0",
+    "react-navigation": "^1.5.1",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2"
   }
 }
