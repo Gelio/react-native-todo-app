@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { Input, View, Button, Text, Item, Container, Content } from 'native-base';
 
 export default class CreateTodo extends React.Component {
@@ -28,7 +29,7 @@ export default class CreateTodo extends React.Component {
 
   render() {
     return (
-      <View style={{ flexDirection: 'row' }}>
+      <View style={createTodoStyle.view}>
         <Input
           placeholder="Do great stuff!"
           value={this.state.text}
@@ -42,3 +43,13 @@ export default class CreateTodo extends React.Component {
     );
   }
 }
+
+const createTodoStyle = StyleSheet.create({
+  view: {
+    flexDirection: 'row',
+    paddingHorizontal: 5,
+    paddingTop: 2,
+    borderTopColor: 'grey',
+    borderTopWidth: 1
+  }
+});

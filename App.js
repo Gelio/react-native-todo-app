@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, View, KeyboardAvoidingView } from 'react-native';
-import { Text, Container, Header, Content, Footer, Spinner, Body, Title, FooterTab, List, ListItem } from 'native-base';
+import { Text, Container, Header, Button, Content, Footer, Spinner, SwipeRow, Body, Title, FooterTab, List, ListItem, Right } from 'native-base';
 
 import Item from './src/Item';
 import CreateTodo from './src/CreateTodo';
@@ -37,6 +37,7 @@ export default class App extends React.Component {
 
     this.addTodo = this.addTodo.bind(this);
     this.removeTodo = this.removeTodo.bind(this);
+    this.openSettings = this.openSettings.bind(this);
   }
 
   async componentWillMount() {
@@ -65,6 +66,10 @@ export default class App extends React.Component {
     });
   }
 
+  openSettings() {
+    console.log('opening settings');
+  }
+
   getLoadedAppContainer() {
     return (
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
@@ -73,10 +78,15 @@ export default class App extends React.Component {
             <Body>
               <Title>Todo list</Title>
             </Body>
+            <Right>
+              <Button onPress={this.openSettings}><Text>Settings</Text></Button>
+            </Right>
           </Header>
           <Content>
             <List dataArray={this.state.items} renderRow={item =>
-              <ListItem onPress={() => this.removeTodo(item)}><Text>{item.title}</Text></ListItem>} />
+              <ListItem onPress={() => this.removeTodo(item)}>
+                <Text>{item.title}</Text>
+              </ListItem>} />
           </Content>
         </Container>
         <CreateTodo createTodo={this.addTodo} />
