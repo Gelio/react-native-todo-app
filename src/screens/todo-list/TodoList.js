@@ -15,6 +15,11 @@ function EmptyTodoList() {
   );
 }
 
+function removeTodoWithRowMap(removeTodo, todoItem, secId, rowId, rowMap) {
+  rowMap[`${secId}${rowId}`].props.closeRow();
+  removeTodo(todoItem);
+}
+
 export default function TodoList({ todoList, removeTodo, editTodo }) {
   const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -22,12 +27,17 @@ export default function TodoList({ todoList, removeTodo, editTodo }) {
     <EmptyTodoList />
   ) : (
     <List
-      renderLeftHiddenRow={todoItem => (
+      renderLeftHiddenRow={(todoItem, secId, rowId, rowMap) => (
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <Button light full onPress={() => editTodo(todoItem)} style={{ flex: 1 }}>
             <Icon active ios="ios-create" android="md-create" />
           </Button>
-          <Button success full onPress={() => removeTodo(todoItem)} style={{ flex: 1 }}>
+          <Button
+            success
+            full
+            onPress={() => removeTodoWithRowMap(removeTodo, todoItem, secId, rowId, rowMap)}
+            style={{ flex: 1 }}
+          >
             <Icon active ios="ios-checkmark" android="md-checkmark" />
           </Button>
         </View>
