@@ -1,7 +1,7 @@
 export const TODO_LIST_ACTION = {
   ADD: '[TodoList] Add',
   REMOVE: '[TodoList] Remove',
-  LOAD: '[TodoList] Load',
+  LOADED: '[TodoList] Loaded',
 };
 
 export function addTodo(todoItem) {
@@ -18,9 +18,9 @@ export function removeTodo(todoItem) {
   };
 }
 
-export function loadTodoList(todoList) {
+export function todoListLoaded(todoList) {
   return {
-    type: TODO_LIST_ACTION.LOAD,
+    type: TODO_LIST_ACTION.LOADED,
     todoList,
   };
 }

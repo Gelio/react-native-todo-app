@@ -14,5 +14,11 @@ export default StackNavigator(
   },
   {
     initialRouteName: 'TodoList',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#AB47BC',
+      },
+      headerTintColor: '#F3E5F5',
+    },
   },
 );

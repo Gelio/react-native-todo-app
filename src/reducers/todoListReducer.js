@@ -30,7 +30,7 @@ export default function todoListReducer(state = initialState, action) {
       return { ...state, todoList: newTodoList };
     }
 
-    case TODO_LIST_ACTION.LOAD:
+    case TODO_LIST_ACTION.LOADED:
       return {
         ...state,
         todoList: action.todoList,

@@ -5,27 +5,24 @@ import { Provider } from 'react-redux';
 
 import RootNavigator from './RootNavigator';
 import allReducers from './src/reducers';
+import loadFonts from './src/loadFonts';
+import loadAppData from './src/loadAppData';
 
 const store = createStore(allReducers);
 
 export default class App extends React.Component {
   state = {
-    fontsLoaded: false,
+    appLoaded: false,
   };
 
   async componentWillMount() {
-    /* eslint-disable global-require */
-    await Expo.Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-    });
-    /* eslint-enable global-require */
+    await Promise.all([loadFonts(), loadAppData(store)]);
 
-    this.setState({ fontsLoaded: true });
+    this.setState({ appLoaded: true });
   }
 
   render() {
-    return this.state.fontsLoaded ? (
+    return this.state.appLoaded ? (
       <Provider store={store}>
         <RootNavigator />
       </Provider>
