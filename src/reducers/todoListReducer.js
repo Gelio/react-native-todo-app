@@ -34,7 +34,7 @@ export default function todoListReducer(state = initialState, action) {
       const { todoItem } = action;
 
       todoItem.title = action.newTitle;
-      todoItem.createdAt = action.newCreatedAt;
+      todoItem.date = action.newDate;
       TodoStorage.save(state.todoList);
 
       return { ...state, todoList: state.todoList.slice(0) };

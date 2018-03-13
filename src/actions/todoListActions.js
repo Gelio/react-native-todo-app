@@ -19,12 +19,12 @@ export function removeTodo(todoItem) {
   };
 }
 
-export function editTodo(todoItem, newTitle, newCreatedAt) {
+export function editTodo(todoItem, newTitle, newDate) {
   return {
     type: TODO_LIST_ACTION.EDIT,
     todoItem,
     newTitle,
-    newCreatedAt,
+    newDate,
   };
 }
 

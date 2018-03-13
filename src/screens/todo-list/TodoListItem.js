@@ -2,15 +2,15 @@ import React from 'react';
 import { ListItem, Text } from 'native-base';
 import PropTypes from 'prop-types';
 
-import formatCreatedAtDate from './formatCreatedAtDate';
+import formatTodoDate from './formatTodoDate';
 
 export default function TodoListItem({ todoItem }) {
-  const createdAtDate = new Date(todoItem.createdAt);
+  const date = new Date(todoItem.date);
 
   return (
     <ListItem style={{ paddingLeft: 5, justifyContent: 'space-between' }}>
       <Text style={{ flexShrink: 1 }}>{todoItem.title}</Text>
-      <Text style={{ color: '#777' }}>{formatCreatedAtDate(createdAtDate)}</Text>
+      <Text style={{ color: '#777' }}>{formatTodoDate(date)}</Text>
     </ListItem>
   );
 }

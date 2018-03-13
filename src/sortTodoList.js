@@ -14,8 +14,8 @@ function alphabeticComparator(todoItem1, todoItem2) {
 }
 
 function ascendingDateComparator(todoItem1, todoItem2) {
-  const date1 = todoItem1.createdAt;
-  const date2 = todoItem2.createdAt;
+  const date1 = todoItem1.date;
+  const date2 = todoItem2.date;
 
   if (date1 === date2) {
     return alphabeticComparator(todoItem1, todoItem2);
@@ -25,8 +25,8 @@ function ascendingDateComparator(todoItem1, todoItem2) {
 }
 
 function descendingDateComparator(todoItem1, todoItem2) {
-  const date1 = todoItem1.createdAt;
-  const date2 = todoItem2.createdAt;
+  const date1 = todoItem1.date;
+  const date2 = todoItem2.date;
 
   if (date1 === date2) {
     return alphabeticComparator(todoItem1, todoItem2);

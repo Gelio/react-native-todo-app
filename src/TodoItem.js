@@ -1,10 +1,10 @@
 export default class TodoItem {
   /**
    * @param {string} title
-   * @param {number} createdAt
+   * @param {number} date
    */
-  constructor(title, createdAt = Date.now()) {
+  constructor(title, date) {
     this.title = title;
-    this.createdAt = createdAt;
+    this.date = date;
   }
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, DatePickerAndroid } from 'react-native';
 import { View, Text, Button, Input, Item, H1 } from 'native-base';
 
-import formatCreatedAtDate from './formatCreatedAtDate';
+import formatTodoDate from './formatTodoDate';
 
 export default class EditTodoItemModal extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class EditTodoItemModal extends React.Component {
 
   state = {
     title: '',
-    createdAt: 0,
+    date: 0,
   };
 
   componentWillMount() {
@@ -30,7 +30,7 @@ export default class EditTodoItemModal extends React.Component {
       const {
         action, year, month, day,
       } = await DatePickerAndroid.open({
-        date: new Date(this.state.createdAt),
+        date: new Date(this.state.date),
       });
 
       if (action === DatePickerAndroid.dismissedAction) {
@@ -38,7 +38,7 @@ export default class EditTodoItemModal extends React.Component {
       }
 
       this.setState({
-        createdAt: new Date(year, month, day).getTime(),
+        date: new Date(year, month, day).getTime(),
       });
     } catch (error) {
       console.error('Cannot open date picker', error);
@@ -52,7 +52,7 @@ export default class EditTodoItemModal extends React.Component {
 
     this.setState({
       title: props.todoItem.title,
-      createdAt: props.todoItem.createdAt,
+      date: props.todoItem.date,
     });
   }
 
@@ -84,7 +84,7 @@ export default class EditTodoItemModal extends React.Component {
                 marginTop: 20,
               }}
             >
-              <Text>Date: {formatCreatedAtDate(new Date(this.state.createdAt))}</Text>
+              <Text>Date: {formatTodoDate(new Date(this.state.date))}</Text>
               <Button onPress={this.onChangeDateClick}>
                 <Text>Change date</Text>
               </Button>
@@ -95,7 +95,7 @@ export default class EditTodoItemModal extends React.Component {
                 <Text>Cancel</Text>
               </Button>
 
-              <Button onPress={() => this.props.onConfirm(this.state.title, this.state.createdAt)}>
+              <Button onPress={() => this.props.onConfirm(this.state.title, this.state.date)}>
                 <Text>Confirm</Text>
               </Button>
             </View>

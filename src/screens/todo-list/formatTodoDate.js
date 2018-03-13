@@ -12,6 +12,6 @@ function padTen(x) {
 /**
  * @param {Date} date
  */
-export default function formatCreatedAtDate(date) {
+export default function formatTodoDate(date) {
   return [date.getDate(), date.getMonth() + 1, date.getFullYear()].map(padTen).join('-');
 }
