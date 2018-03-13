@@ -1,18 +1,5 @@
 import React from 'react';
-import {
-  View,
-  ListItem,
-  Item,
-  List,
-  Left,
-  Text,
-  Picker,
-  Form,
-  Label,
-  Body,
-  Content,
-  Container,
-} from 'native-base';
+import { ListItem, List, Left, Text, Picker, Body, Content, Container } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -41,8 +28,9 @@ class SettingsScreen extends React.Component {
           <List>
             <ListItem>
               <Left>
-                <Text>Picker</Text>
+                <Text>Item sort order</Text>
               </Left>
+
               <Body>
                 <Picker
                   mode="dropdown"
