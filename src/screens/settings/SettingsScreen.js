@@ -35,7 +35,6 @@ class SettingsScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.sortOrder);
     return (
       <Container>
         <Content>

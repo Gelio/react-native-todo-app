@@ -47,14 +47,14 @@ class TodoListScreen extends React.Component {
     });
   }
 
-  onConfirmEditTodoItemModal(newTitle) {
+  onConfirmEditTodoItemModal(newTitle, newCreatedAt) {
     const todoItem = this.state.editedTodoItem;
 
     this.setState({
       editedTodoItem: null,
     });
 
-    this.props.editTodo(todoItem, newTitle);
+    this.props.editTodo(todoItem, newTitle, newCreatedAt);
   }
 
   openSettings() {

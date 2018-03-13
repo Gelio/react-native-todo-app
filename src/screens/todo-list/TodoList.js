@@ -15,9 +15,9 @@ function EmptyTodoList() {
   );
 }
 
-function removeTodoWithRowMap(removeTodo, todoItem, secId, rowId, rowMap) {
+function closeRowAndExecute(func, todoItem, secId, rowId, rowMap) {
   rowMap[`${secId}${rowId}`].props.closeRow();
-  removeTodo(todoItem);
+  func(todoItem);
 }
 
 export default function TodoList({ todoList, removeTodo, editTodo }) {
@@ -29,13 +29,19 @@ export default function TodoList({ todoList, removeTodo, editTodo }) {
     <List
       renderLeftHiddenRow={(todoItem, secId, rowId, rowMap) => (
         <View style={{ flex: 1, flexDirection: 'row' }}>
-          <Button light full onPress={() => editTodo(todoItem)} style={{ flex: 1 }}>
+          <Button
+            light
+            full
+            onPress={() => closeRowAndExecute(editTodo, todoItem, secId, rowId, rowMap)}
+            style={{ flex: 1 }}
+          >
             <Icon active ios="ios-create" android="md-create" />
           </Button>
+
           <Button
             success
             full
-            onPress={() => removeTodoWithRowMap(removeTodo, todoItem, secId, rowId, rowMap)}
+            onPress={() => closeRowAndExecute(removeTodo, todoItem, secId, rowId, rowMap)}
             style={{ flex: 1 }}
           >
             <Icon active ios="ios-checkmark" android="md-checkmark" />

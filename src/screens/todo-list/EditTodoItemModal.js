@@ -1,11 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal } from 'react-native';
+import { Modal, DatePickerAndroid } from 'react-native';
 import { View, Text, Button, Input, Item, H1 } from 'native-base';
 
+import formatCreatedAtDate from './formatCreatedAtDate';
+
 export default class EditTodoItemModal extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.onChangeDateClick = this.onChangeDateClick.bind(this);
+  }
+
   state = {
     title: '',
+    createdAt: 0,
   };
 
   componentWillMount() {
@@ -16,6 +25,26 @@ export default class EditTodoItemModal extends React.Component {
     this.updateTitleFromProps(props);
   }
 
+  async onChangeDateClick() {
+    try {
+      const {
+        action, year, month, day,
+      } = await DatePickerAndroid.open({
+        date: new Date(this.state.createdAt),
+      });
+
+      if (action === DatePickerAndroid.dismissedAction) {
+        return;
+      }
+
+      this.setState({
+        createdAt: new Date(year, month, day).getTime(),
+      });
+    } catch (error) {
+      console.error('Cannot open date picker', error);
+    }
+  }
+
   updateTitleFromProps(props) {
     if (!props.todoItem) {
       return;
@@ -23,6 +52,7 @@ export default class EditTodoItemModal extends React.Component {
 
     this.setState({
       title: props.todoItem.title,
+      createdAt: props.todoItem.createdAt,
     });
   }
 
@@ -34,8 +64,8 @@ export default class EditTodoItemModal extends React.Component {
           visible={this.props.modalVisible}
           onRequestClose={this.props.onCancel}
         >
-          <View style={{ alignItems: 'center', marginTop: 30 }}>
-            <H1>Edit todo</H1>
+          <View style={{ marginTop: 30 }}>
+            <H1 style={{ textAlign: 'center' }}>Edit todo</H1>
 
             <Item regular>
               <Input
@@ -46,12 +76,26 @@ export default class EditTodoItemModal extends React.Component {
               />
             </Item>
 
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                marginTop: 20,
+              }}
+            >
+              <Text>Date: {formatCreatedAtDate(new Date(this.state.createdAt))}</Text>
+              <Button onPress={this.onChangeDateClick}>
+                <Text>Change date</Text>
+              </Button>
+            </View>
+
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 }}>
               <Button light onPress={this.props.onCancel} style={{ marginRight: 10 }}>
                 <Text>Cancel</Text>
               </Button>
 
-              <Button onPress={() => this.props.onConfirm(this.state.title)}>
+              <Button onPress={() => this.props.onConfirm(this.state.title, this.state.createdAt)}>
                 <Text>Confirm</Text>
               </Button>
             </View>

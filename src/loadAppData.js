@@ -11,7 +11,6 @@ async function loadTodoList(store) {
 
 async function loadSettings(store) {
   const sortOrder = await SettingsStorage.getSortOrder();
-  console.log('sort order', sortOrder);
   if (!sortOrder) {
     return;
   }
