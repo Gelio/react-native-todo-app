@@ -27,6 +27,7 @@ export default function TodoList({ todoList, removeTodo, editTodo }) {
     <EmptyTodoList />
   ) : (
     <List
+      disableLeftSwipe
       renderLeftHiddenRow={(todoItem, secId, rowId, rowMap) => (
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <Button
