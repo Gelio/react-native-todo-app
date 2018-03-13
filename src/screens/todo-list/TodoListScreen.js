@@ -8,6 +8,7 @@ import CreateTodoRow from './CreateTodoRow';
 import { addTodo, removeTodo, editTodo } from '../../actions/todoListActions';
 import TodoList from './TodoList';
 import EditTodoItemModal from './EditTodoItemModal';
+import sortTodoList from '../../sortTodoList';
 
 class TodoListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -106,35 +107,13 @@ TodoListScreen.propTypes = {
   editTodo: PropTypes.func.isRequired,
 };
 
-function sortTodoListAlphabetically(todoList) {
-  const sortedTodoList = todoList.slice(0);
-
-  sortedTodoList.sort((a, b) => {
-    const aLower = a.title.toLowerCase();
-    const bLower = b.title.toLowerCase();
-
-    if (aLower > bLower) {
-      return 1;
-    } else if (aLower < bLower) {
-      return -1;
-    }
-
-    return 0;
-  });
-
-  return sortedTodoList;
-}
-
 function mapStateToProps(state) {
-  const { sortAlphabetically } = state.settings;
-  const todoList = sortAlphabetically
-    ? sortTodoListAlphabetically(state.todoList.todoList)
-    : state.todoList.todoList;
+  const { sortOrder } = state.settings;
+  const todoList = sortTodoList(sortOrder, state.todoList.todoList);
 
   return {
     todoList,
     isTodoListLoaded: state.todoList.isLoaded,
-    sortAlphabetically,
   };
 }
 

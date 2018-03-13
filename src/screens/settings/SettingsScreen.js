@@ -1,9 +1,23 @@
 import React from 'react';
-import { View, Text, ListItem, CheckBox, Body } from 'native-base';
+import {
+  View,
+  ListItem,
+  Item,
+  List,
+  Left,
+  Text,
+  Picker,
+  Form,
+  Label,
+  Body,
+  Content,
+  Container,
+} from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { sortAlphabeticallyOff, sortAlphabeticallyOn } from '../../actions/settingsActions';
+import { setSortOrder } from '../../actions/settingsActions';
+import SORT_ORDER from '../../SortOrder';
 
 class SettingsScreen extends React.Component {
   static navigationOptions = () => ({
@@ -13,43 +27,62 @@ class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    this.toggleSortAlphabetically = this.toggleSortAlphabetically.bind(this);
+    this.onSortOrderChange = this.onSortOrderChange.bind(this);
   }
 
-  toggleSortAlphabetically() {
-    const action = this.props.sortAlphabetically ? 'sortAlphabeticallyOff' : 'sortAlphabeticallyOn';
-
-    this.props[action]();
+  onSortOrderChange(newSortOrder) {
+    this.props.setSortOrder(newSortOrder);
   }
 
   render() {
+    console.log(this.props.sortOrder);
     return (
-      <View>
-        <ListItem onPress={this.toggleSortAlphabetically}>
-          <CheckBox checked={this.props.sortAlphabetically} />
-          {/* Move checkbox to right (as with list icon) */}
-          <Body>
-            <Text>Sort todos alphabetically</Text>
-          </Body>
-        </ListItem>
-      </View>
+      <Container>
+        <Content>
+          <List>
+            <ListItem>
+              <Left>
+                <Text>Picker</Text>
+              </Left>
+              <Body>
+                <Picker
+                  mode="dropdown"
+                  iosHeader="Select one"
+                  selectedValue={this.props.sortOrder}
+                  onValueChange={this.onSortOrderChange}
+                >
+                  <Picker.Item label="Alphabetically" value={SORT_ORDER.ALPHABETIC} />
+                  <Picker.Item
+                    label="By date (latest to oldest)"
+                    value={SORT_ORDER.DATE_ASCENDING}
+                  />
+                  <Picker.Item
+                    label="By date (oldest to latest)"
+                    value={SORT_ORDER.DATE_DESCENDING}
+                  />
+                </Picker>
+              </Body>
+            </ListItem>
+          </List>
+        </Content>
+      </Container>
     );
   }
 }
 
 SettingsScreen.propTypes = {
-  sortAlphabetically: PropTypes.bool.isRequired,
+  sortOrder: PropTypes.string.isRequired,
+  setSortOrder: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    sortAlphabetically: state.settings.sortAlphabetically,
+    sortOrder: state.settings.sortOrder,
   };
 }
 
 const mapDispatchToProps = {
-  sortAlphabeticallyOff,
-  sortAlphabeticallyOn,
+  setSortOrder,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);

@@ -1,6 +1,6 @@
 import TodoStorage from './TodoStorage';
 import { todoListLoaded } from './actions/todoListActions';
-import { sortAlphabeticallyOff, sortAlphabeticallyOn } from './actions/settingsActions';
+import { setSortOrder } from './actions/settingsActions';
 import SettingsStorage from './SettingsStorage';
 
 async function loadTodoList(store) {
@@ -10,10 +10,13 @@ async function loadTodoList(store) {
 }
 
 async function loadSettings(store) {
-  const sortAlphabetically = await SettingsStorage.getSortAlphabetically();
+  const sortOrder = await SettingsStorage.getSortOrder();
+  console.log('sort order', sortOrder);
+  if (!sortOrder) {
+    return;
+  }
 
-  const action = sortAlphabetically ? sortAlphabeticallyOn() : sortAlphabeticallyOff();
-
+  const action = setSortOrder(sortOrder);
   store.dispatch(action);
 }
 

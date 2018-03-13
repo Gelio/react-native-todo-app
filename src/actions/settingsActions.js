@@ -1,16 +1,10 @@
 export const SETTINGS_ACTION = {
-  SORT_ALPHABETICALLY_ON: '[Settings] Sort alphabetically: on',
-  SORT_ALPHABETICALLY_OFF: '[Settings] Sort alphabetically: off',
+  SET_SORT_ORDER: '[Settings] Set sort order',
 };
 
-export function sortAlphabeticallyOn() {
+export function setSortOrder(sortOrder) {
   return {
-    type: SETTINGS_ACTION.SORT_ALPHABETICALLY_ON,
-  };
-}
-
-export function sortAlphabeticallyOff() {
-  return {
-    type: SETTINGS_ACTION.SORT_ALPHABETICALLY_OFF,
+    type: SETTINGS_ACTION.SET_SORT_ORDER,
+    sortOrder,
   };
 }

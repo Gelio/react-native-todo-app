@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Input, View, Button, Text } from 'native-base';
 
 import TodoItem from '../../TodoItem';
+import getCurrentDayDate from './getCurrentDayDate';
 
 const createTodoStyle = StyleSheet.create({
   view: {
@@ -33,7 +34,7 @@ export default class CreateTodoRow extends React.Component {
       return;
     }
 
-    const todoItem = new TodoItem(this.state.text, Date.now());
+    const todoItem = new TodoItem(this.state.text, getCurrentDayDate());
 
     this.createTodo(todoItem);
     this.setState({

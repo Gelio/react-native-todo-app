@@ -1,13 +1,13 @@
 import { AsyncStorage } from 'react-native';
 
-const sortAlphabeticallyStorageKey = 'SORT_ALPHABETICALLY';
+const sortOrderStorageKey = 'SORT_ORDER';
 
 export default class SettingsStorage {
-  static setSortAlphabetically(value) {
-    return AsyncStorage.setItem(sortAlphabeticallyStorageKey, JSON.stringify(value));
+  static setSortOrder(sortOrder) {
+    return AsyncStorage.setItem(sortOrderStorageKey, sortOrder);
   }
 
-  static async getSortAlphabetically() {
-    return JSON.parse(await AsyncStorage.getItem(sortAlphabeticallyStorageKey));
+  static async getSortOrder() {
+    return AsyncStorage.getItem(sortOrderStorageKey);
   }
 }

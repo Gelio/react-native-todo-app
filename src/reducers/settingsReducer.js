@@ -1,19 +1,16 @@
 import { SETTINGS_ACTION } from '../actions/settingsActions';
 import SettingsStorage from '../SettingsStorage';
+import SORT_ORDER from '../SortOrder';
 
 const defaultState = {
-  sortAlphabetically: false,
+  sortOrder: SORT_ORDER.DATE_ASCENDING,
 };
 
 export default function settingsReducer(state = defaultState, action) {
   switch (action.type) {
-    case SETTINGS_ACTION.SORT_ALPHABETICALLY_ON:
-      SettingsStorage.setSortAlphabetically(true);
-      return { ...state, sortAlphabetically: true };
-
-    case SETTINGS_ACTION.SORT_ALPHABETICALLY_OFF:
-      SettingsStorage.setSortAlphabetically(false);
-      return { ...state, sortAlphabetically: false };
+    case SETTINGS_ACTION.SET_SORT_ORDER:
+      SettingsStorage.setSortOrder(action.sortOrder);
+      return { ...state, sortOrder: action.sortOrder };
 
     default:
       return state;
