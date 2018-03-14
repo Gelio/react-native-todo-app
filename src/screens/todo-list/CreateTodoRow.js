@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { Input, View, Button, Text } from 'native-base';
+import { Input, View, Button, Icon } from 'native-base';
 
 import TodoItem from '../../TodoItem';
 import getCurrentDayDate from './getCurrentDayDate';
@@ -53,7 +53,7 @@ export default class CreateTodoRow extends React.Component {
         />
 
         <Button success onPress={this.onAddTodoClick}>
-          <Text>Add</Text>
+          <Icon ios="ios-add" android="md-add" />
         </Button>
       </View>
     );

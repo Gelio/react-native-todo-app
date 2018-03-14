@@ -1,6 +1,6 @@
 import React from 'react';
 import { KeyboardAvoidingView } from 'react-native';
-import { Container, Button, Text, Content, Spinner } from 'native-base';
+import { Container, Button, Icon, Content, Spinner } from 'native-base';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -18,7 +18,7 @@ class TodoListScreen extends React.Component {
       headerTitle: 'Todo List',
       headerRight: (
         <Button onPress={params.openSettings}>
-          <Text>Settings</Text>
+          <Icon android="md-settings" ios="ios-settings" />
         </Button>
       ),
     };
